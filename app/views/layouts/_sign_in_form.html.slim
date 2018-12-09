@@ -1,0 +1,7 @@
+= form_for :user, url: user_session_path, html: { class: 'ajax-reloader-form' } do |f|
+  span
+    = f.text_field :email, style: 'width: 200px', placeholder: 'e-mail', id: 'sign-in-user-email'
+  span
+    = f.text_field :password, type: 'password', style: 'width: 200px', placeholder: 'password', id: 'sign-in-user-password'
+  span
+    = f.submit 'log in'

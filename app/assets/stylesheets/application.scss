@@ -1,0 +1,53 @@
+@import "noty/lib/noty";
+@import "noty/lib/themes/semanticui";
+@import "events";
+@import "topics";
+@import "select2/dist/css/select2";
+@import "jquery-datetimepicker/jquery.datetimepicker";
+
+.header {
+  display: block;
+  width: 100%;
+  background-color: #BBBBBB;
+  padding: 5px;
+  text-align: right;
+  margin-left: -8px;
+  margin-top: -8px;
+
+  .admin-link, .auth, .sign-in, .sign-up, .forgot-password {
+    margin: 0 10px;
+    clear: bottom;
+
+    .inline-block {
+      display: inline-block;
+    }
+
+    .hidden {
+      display: none;
+    }
+  }
+}
+
+.main-block {
+  display: flex;
+
+  .sidebar {
+    width: 200px;
+  }
+
+  .content {
+    display: flex;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.inline {
+  display: inline;
+}
+
+.inline-block {
+  display: inline-block;
+}

@@ -1,0 +1,11 @@
+= form_for :user, url: users_path, html: { class: 'ajax-reloader-form' } do |f|
+  span
+    = f.text_field :email, style: 'width: 200px', placeholder: 'e-mail', id: 'new-user-email'
+  span
+    = f.text_field :name, style: 'width: 200px', placeholder: 'name', id: 'new-user-name'
+  span
+    = f.text_field :password, type: 'password', style: 'width: 200px', placeholder: 'password', id: 'new-user-password'
+  span
+    = f.text_field :password_confirmation, type: 'password', style: 'width: 200px', placeholder: 'password confirmation', id: 'new-user-password-confirmation'
+  span
+    = f.submit 'Register'

@@ -1,0 +1,14 @@
+.event
+  .event-title
+    = event.title
+  .times
+    small.begin-time-title Начинается:
+    small.begin-time-value= I18n.l event.begin_time, format: :long
+    small.separator |
+    small.end-time-title Заканчивается:
+    small.end-time-value= I18n.l event.end_time, format: :long
+  .event-description
+    = event.description
+
+  .topics
+    = render event.topics

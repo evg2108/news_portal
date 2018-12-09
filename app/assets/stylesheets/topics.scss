@@ -1,0 +1,65 @@
+// Place all the styles related to the topics controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.topics {
+  margin-top: 10px;
+
+  .topic {
+    padding: 5px;
+    border-top: 1px dashed #cccccc;
+
+    .topic-title {
+      font-size: 18px;
+    }
+
+    .topic-description {
+      margin-top: 5px;
+    }
+  }
+}
+
+.topic-block {
+  width: 800px;
+  border: 1px solid #000;
+  padding: 5px;
+
+  .topic-event-title, .topic-title, .separator {
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .topic-description {
+    margin-top: 5px;
+    margin-bottom: 20px;
+  }
+
+  .new-post {
+    ol {
+      list-style: none;
+    }
+
+    textarea {
+      width: 100%;
+    }
+  }
+}
+
+
+.posts {
+  margin-top: 10px;
+
+  .post {
+    border-top: 1px dashed;
+    padding: 5px;
+
+    .user-info {
+      background-color: #ccc;
+    }
+  }
+
+  .post-content {
+    margin-top: 5px;
+  }
+}

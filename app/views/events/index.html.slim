@@ -1,0 +1,10 @@
+.content-block
+  h1
+    | События
+
+  .events
+    = render @events
+
+  = paginate @events
+
+= render partial: 'filter'

@@ -1,0 +1,10 @@
+.post
+  .user-info
+    strong Автор:
+    '
+    span= post.user.name
+    '
+    '|
+    small= I18n.l post.created_at, format: :long
+  .post-content
+    = post.message

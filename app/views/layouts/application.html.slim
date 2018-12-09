@@ -1,0 +1,29 @@
+doctype html
+html
+  head
+    meta content="text/html; charset=UTF-8" http-equiv="Content-Type" /
+    title NewsPortal
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag    'application'
+    = javascript_include_tag 'application'
+  body
+    .header
+      - if user_signed_in?
+        = render partial: 'layouts/header_links'
+      - else
+        .sign-in.inline-block
+          = render partial: 'layouts/sign_in_form'
+        .sign-up.hidden
+          = render partial: 'layouts/sign_up_form'
+
+        = button_tag 'Sign in', class: 'hidden sign-in-switcher', data: { activate: 'sign-in' }
+        = button_tag 'Sign up', class: 'inline sign-up-switcher', data: { activate: 'sign-up' }
+    .main-block
+      .sidebar
+        = link_to 'Events', events_path
+      .content
+        = yield
+
+    - if user_signed_in?
+      .data-store (data-current-filter-ids=current_user.filters.ids)

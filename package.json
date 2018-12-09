@@ -1,0 +1,17 @@
+{
+  "name": "news_portal",
+  "version": "1.0.0",
+  "description": "This README would normally document whatever steps are necessary to get the application up and running.",
+  "main": "index.js",
+  "dependencies": {
+    "jquery-datetimepicker": "^2.5.20",
+    "noty": "^3.2.0-beta",
+    "select2": "^4.0.6-rc.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

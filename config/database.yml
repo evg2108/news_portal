@@ -1,0 +1,13 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: news_portal_development
+  pool: 5
+  timeout: 5000
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: news_portal_test
+  pool: 5
+  timeout: 5000
