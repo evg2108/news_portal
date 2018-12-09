@@ -2,7 +2,9 @@
 
 * bundle install
 * rake db:setup
-* rake db:migrate
-* rake db:seed
 
-rails c
+rails s
+
+admin user for develop:
+  login: admin@admin.com
+  password: password
