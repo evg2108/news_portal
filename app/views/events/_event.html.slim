@@ -7,6 +7,11 @@
     small.separator |
     small.end-time-title Заканчивается:
     small.end-time-value= I18n.l event.end_time, format: :long
+  - if event.tags.any?
+    .tags
+      span Тематика:
+      '
+      span= event.tag_names.join(', ')
   .event-description
     = event.description
 
