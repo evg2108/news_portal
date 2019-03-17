@@ -27,13 +27,7 @@ $ ->
   if $('.data-store').length > 0
     App.cable.subscriptions.create { channel: "ApplicationCable::NewEventChannel", room: 'all' },
       received: (data) ->
-        current_filter_ids = $('.data-store').data('current-filter-ids')
-        recived_filter_ids = data.filter_ids
-        return if recived_filter_ids.length == 0 || current_filter_ids.length == 0
-
-        intersection =  $(current_filter_ids).not($(current_filter_ids).not(recived_filter_ids))
-
-        if intersection.length > 0
+        if data.event_id
           requestNewEvents()
 
     requestNewEvents()
