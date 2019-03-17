@@ -10,6 +10,20 @@
 #= require_self
 
 $ ->
+  requestNewEvents = ->
+    $.getJSON('/new_events').then (result) ->
+      result.events.forEach (event_title) ->
+        new Noty(
+          text: 'Анонсировано новое событие отфильтрованное для вас: ' + event_title
+          type: 'success'
+          theme: 'semanticui'
+        ).show()
+
+      if result.last_event_id
+        $.ajax
+          url: '/new_event_marks/' + result.last_event_id
+          method: 'PATCH'
+
   if $('.data-store').length > 0
     App.cable.subscriptions.create { channel: "ApplicationCable::NewEventChannel", room: 'all' },
       received: (data) ->
@@ -20,20 +34,9 @@ $ ->
         intersection =  $(current_filter_ids).not($(current_filter_ids).not(recived_filter_ids))
 
         if intersection.length > 0
-          $.getJSON('/events/' + data.event_id).then (result) ->
-            new Noty(
-              text: 'Анонсировано новое событие отфильтрованное для вас: ' + result.title
-              type: 'success'
-              theme: 'semanticui'
-            ).show()
+          requestNewEvents()
 
-    $.getJSON('/events/new_events').then (result) ->
-      result.events.forEach (event_title) ->
-        new Noty(
-          text: 'Анонсировано новое событие отфильтрованное для вас: ' + event_title
-          type: 'success'
-          theme: 'semanticui'
-        ).show()
+    requestNewEvents()
 
   $('.header').on 'click', 'button.inline', (e) ->
     buttons = $('.header').find('button.hidden')
@@ -52,31 +55,6 @@ $ ->
     show_block = $('.header .' + show_block_class)
     show_block.removeClass('hidden')
     show_block.addClass('inline-block') unless show_block.hasClass('inline-block')
-
-  $('.header').on 'submit', 'form.ajax-reloader-form', (e) ->
-    e.preventDefault()
-
-    $form = $(this)
-    $submit_button = $form.find('input[type="submit"]')
-
-    $.ajax
-      url: $form.attr('action')
-      dataType: 'json'
-      contentType: 'application/x-www-form-urlencoded'
-      method: $form.attr('method')
-      data: $form.serialize()
-      success: (result, status, xhr) ->
-        if xhr.status == 201
-          location.replace(xhr.getResponseHeader('location'))
-      error: (xhr) ->
-        response = xhr.responseJSON
-        notification_message = if response then response.error else ('error ' + xhr.status)
-        new Noty(
-          text: notification_message,
-          type: 'error',
-          theme: 'semanticui'
-        ).show()
-        $submit_button.attr('disabled', false)
 
   $('.date-time-picker').datetimepicker
     format:'Y-m-d H:i'

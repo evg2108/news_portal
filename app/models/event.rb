@@ -35,21 +35,11 @@ class Event < ApplicationRecord
     "#{city.name} / #{place.title} / #{title}"
   end
 
-  def suitable_filter_ids
-    filters = Filter.joins(:user)
-                .where('users.last_notified_event_id < ?', id)
-                .where('begin_interval < :begin_time or end_interval > :begin_time or (begin_interval is null and end_interval is null)', begin_time: begin_time)
-                .where('city_id = ? or city_id is null', city_id)
-    filters = filters.where('tag_id in (?)', tags.ids) if tags.any?
-    filters.uniq.pluck(:id)
-  end
-
   private
 
   def broadcast_notification
     return if begin_time < Time.now
 
-    ActionCable.server.broadcast('application_cable:new_event_channel_all',
-                                 filter_ids: suitable_filter_ids, event_id: id)
+    NewEventNotificationJob.perform_later(self)
   end
 end

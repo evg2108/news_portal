@@ -2,17 +2,10 @@ class PostsController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    @topic = Topic.find(params[:topic_id])
+    creator = PostCreator.new(current_user, params[:topic_id])
+    creator.create!(permitted_params)
 
-    @post = Post.new(permitted_params)
-    @post.topic_id = @topic.id
-    @post.user_id = current_user.id
-
-    @post.save
-    respond_to do |format|
-      format.html { redirect_to topic_path(@topic) }
-      format.json { render json: { success: true } }
-    end
+    redirect_to topic_path(creator.topic)
   end
 
   private

@@ -1,3 +1,4 @@
+# TODO refactor this
 module IdentifiedSearch
   extend ActiveSupport::Concern
 

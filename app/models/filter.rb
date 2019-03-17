@@ -7,42 +7,12 @@ class Filter < ApplicationRecord
   validates :user_id, presence: true
   validates :name, presence: true
 
-  class << self
-    def search_all_new_events(user)
-      user.filters.flat_map do |filter|
-        filter.search_events.where('events.id > ?', user.last_notified_event_id).to_a
-      end.uniq
-    end
-  end
+  scope :suitable_by_city, ->(city_id) { where(arel_table[:city_id].eq(city_id).or(arel_table[:city_id].eq(nil)))  }
+  scope :suitable_by_tag_ids, ->(tag_ids) { where(arel_table[:tag_id].in(tag_ids).or(arel_table[:tag_id].eq(nil)))  }
 
-  def search_events
-    result_relation = Event.order(created_at: :desc)
-
-    if city_id
-      result_relation = result_relation.joins(place: :city).where(places: { city_id: city_id })
-    end
-
-    if tag_id
-      result_relation = result_relation.joins(:tags).where(tags: { id: tag_id })
-    end
-
-    if begin_interval
-      result_relation = result_relation.where('begin_time >= ?', begin_interval)
-    end
-
-    if end_interval
-      result_relation = result_relation.where('begin_time <= ?', end_interval)
-    end
-
-    result_relation
-  end
-
-  def as_json(*)
-    {
-      'filter[city_id]' => city_id,
-      'filter[tag_id]' => tag_id,
-      'filter[begin_interval]' => begin_interval,
-      'filter[end_interval]' => end_interval
-    }
-  end
+  scope :suitable_by_time, ->(event_beginning_time) {
+    where(arel_table[:begin_interval].lt(event_beginning_time))
+      .or(where(arel_table[:end_interval].gt(event_beginning_time)))
+      .or(where(begin_interval: nil, end_interval: nil))
+  }
 end

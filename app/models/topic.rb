@@ -5,4 +5,6 @@ class Topic < ApplicationRecord
   validates :title, presence: true
   validates :description, presence: true
   validates :event_id, presence: true
+
+  delegate :title, to: :event, prefix: true
 end

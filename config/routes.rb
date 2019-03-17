@@ -4,21 +4,17 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   root to: 'events#index'
-  resources :events, only: [:index, :show] do
-    get 'new_events', on: :collection
-  end
+  resources :events, only: [:index]
+  resources :new_events, only: [:index]
   resources :topics, only: :show do
     resources :posts, only: [:create]
   end
+  resources :new_event_marks, only: [:update]
   resources :users, only: :create
 
-  resources :cities, only: [] do
-    get 'search', on: :collection
-  end
+  resources :city_search_results, only: [:index]
+  resources :tag_search_results, only: [:index]
 
-  resources :tags, only: [] do
-    get 'search', on: :collection
-  end
-
-  resources :filters, only: [:create, :show, :destroy]
+  resources :filters, only: [:destroy]
+  resources :filtered_events_lists, only: [:create, :update]
 end

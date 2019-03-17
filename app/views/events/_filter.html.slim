@@ -1,7 +1,7 @@
 .filters-block
   .filter-block
     strong Фильтр
-    = semantic_form_for filter, url: '', method: :get do |f|
+    = semantic_form_for @filter, url: filtered_events_lists_path do |f|
       = f.inputs do
         = f.input :city,
                   label: false,
@@ -10,7 +10,7 @@
                   selected: f.object.city_id,
                   input_html: { class: 'select2-remote',
                                 data: { placeholder: 'City',
-                                        source: search_cities_path,
+                                        source: city_search_results_path,
                                         allow_clear: true,
                                         ajax__delay: 500 } }
         = f.input :begin_interval,
@@ -28,23 +28,23 @@
                   selected: f.object.tag_id,
                   input_html: { class: 'select2-remote',
                                 data: { placeholder: 'Tag',
-                                        source: search_tags_path,
+                                        source: tag_search_results_path,
                                         allow_clear: true,
                                         ajax__delay: 500 } }
+        - if user_signed_in?
+          = f.input :save, as: :boolean, input_html: { name: 'save' }
+          = f.input :name, a: :string, label: false, input_html: { placehoder: 'filter name' }
         = f.submit 'filter'
         = link_to 'clear', events_path
 
   - if user_signed_in?
-    .filter-presets
-      = semantic_form_for :filter, url: filters_path do |f|
-        = f.inputs do
-          = f.input :name, label: false, input_html: { placeholder: 'Filter name' }
-          = f.submit
-
     .saved-filters
       strong Сохранённые фильтры
       .filters-list
-        = select_tag(:filters,  options_for_select([['Select filter', '']] + user_filters.pluck(:name, :id)))
+        = select_tag(:filters,  options_for_select([['Select filter', '']] + current_user.filters.pluck(:name, :id)))
       .buttons
-        = button_tag 'load filter', class: 'load-filter-button'
-        = button_tag 'remove filter', class: 'remove-filter-button'
+        = semantic_form_for :filter, url: '', html: { id: 'apply_filter' }, method: :patch do |f|
+          = f.submit 'filter events'
+
+        = semantic_form_for :filter, url: '', html: { id: 'delete_filter' }, method: :delete do |f|
+          = f.submit 'remove filter'

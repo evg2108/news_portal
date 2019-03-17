@@ -5,15 +5,9 @@ class UsersController < ApplicationController
     if user.save
       sign_in(:user, user)
 
-      respond_to do |format|
-        # format.html { redirect_to :back }
-        format.json { render json: {}, location: request.env['HTTP_REFERER'] || '/', status: :created }
-      end
+      redirect_to :back
     else
-      respond_to do |format|
-        # format.html { redirect_to :back, error: user.errors.full_messages.join("\n") }
-        format.json { render json: { error: user.errors.full_messages.join('<br>') }, status: :bad_request }
-      end
+      redirect_to :back, error: user.errors.full_messages.join("\n")
     end
   end
 

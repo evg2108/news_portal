@@ -1,21 +1,21 @@
 .topic-block
   .topic-header
     span.topic-event-title
-      = @event.title
+      = @topic_presenter.event_title
     span.separator
       '
       ' >
     span.topic-title
-      = @topic.title
+      = @topic_presenter.title
   .times
   .topic-description
-    = @topic.description
+    = @topic_presenter.description
 
   .new-post
-    = semantic_form_for :post, url: topic_posts_path(@topic) do |f|
+    = semantic_form_for :post, url: topic_posts_path(@topic_presenter) do |f|
       = f.inputs do
         = f.input :message, as: :text, label: false, input_html: { rows: 5 }
         = f.submit
   .posts
-    = render @posts
-    = paginate @posts
+    = render @topic_presenter.paginated_posts
+    = paginate @topic_presenter.paginated_posts
